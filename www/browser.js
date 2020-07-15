@@ -38,6 +38,10 @@ class Relay extends EventTarget{
                 this.dispatchEvent(new CustomEvent('disconnected'))
                 this.connect()
             })
+            
+            this.socket.addEventListener('error', (...error) => {
+                console.log.apply(null, error)
+            })
         })
     }
 

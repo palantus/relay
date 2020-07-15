@@ -68,6 +68,7 @@ async function init(){
     wss.on('connection', (ws) => {
         ws.on('message', (message) => handleMessage(message, ws))
         ws.on('close', () => {})
+        ws.on('error', (err) => {console.log(err)})
     });
 
     const port = process.env.PORT ? parseInt(process.env.PORT) : 8080;

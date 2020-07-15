@@ -149,7 +149,7 @@ ENABLEDBBROWSER=false
 PORT=8080
 ```
 
-Note: Please update adminkey to something else!
+Important: Please update adminkey to something else!
 
 - ADMINKEY: used for all admin operations, like creating users
 - ENABLEDBBROWSER: Is a database UI used to query data. It is usually only necessary in debug scenarios. When enabled, the UI can be accessed using /db

@@ -31,9 +31,11 @@ mutation {
 
 New message:
 
+```graphql
 mutation {
   messageAdd(input: {user: {id: "me", key: "letmein"}, channel: "chat", participants: ["otheruser"], content: "Hello!!!"}) {
     id
     content
   }
 }
+```

@@ -1,17 +1,3 @@
-/*
-    // Use the following to listen for messages:
-
-    relay.addEventListener('message', ({detail: message}) => {
-        console.log(message);
-    })
-    
-    // And status events:
-
-    relay.addEventListener('status', ({detail: status}) => {
-        $("#status").text(status)
-    })
-*/
-
 class Relay extends EventTarget{
     constructor(){
         super();
@@ -30,7 +16,6 @@ class Relay extends EventTarget{
 
             // Listen for messages
             this.socket.addEventListener('message', (event) => {
-                
                 let msg = JSON.parse(event.data)
                 switch(msg.type){
                     case "status":

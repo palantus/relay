@@ -1,4 +1,3 @@
-const port = 3000;
 const express = require('express')
 const WebSocket = require('ws')
 const path = require("path")
@@ -71,6 +70,7 @@ async function init(){
         ws.on('close', () => {})
     });
 
+    const port = process.env.PORT ? parseInt(process.env.PORT) : 8080;
     server.listen(port, () => (console.log(`Service started on port ${port} (http)`)))
 
     messageEvents.on("create", (message) => {

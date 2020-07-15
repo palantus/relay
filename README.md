@@ -146,6 +146,7 @@ Create a .env file in root directory and enter:
 ```
 ADMINKEY=adminkey
 ENABLEDBBROWSER=false
+PORT=8080
 ```
 
 Note: Please update adminkey to something else!

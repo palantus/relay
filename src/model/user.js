@@ -1,11 +1,16 @@
 "use strict"
 
 let Entity = require("entitystorage")
+const {cleanup} = require("../tools")
 
 class User extends Entity{
     initNew({id, key, name = "", endpoint = null} = {}){
         if(!id)
             throw "Id not provided for new user"
+        
+        if(id != cleanup(id))
+            throw "Id can only contain letters, numbers and dash"
+
         if(User.lookup(id))
             throw "User already exists"
 

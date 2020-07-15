@@ -3,6 +3,7 @@
 let Entity = require("entitystorage")
 const { argsToArgsConfig } = require("graphql/type/definition")
 const User = require("./user")
+const {cleanup} = require("../tools")
 
 class Message extends Entity{
     initNew({user, channel, participants, content} = {}){
@@ -12,8 +13,13 @@ class Message extends Entity{
         if((typeof channel === "object" && !channel.id) || !channel)
             throw "Must provide a channel for new messages"
 
-        this.userId = typeof user === "object" ? user.id : user
-        this.channel = typeof channel === "object" ? channel.id : channel
+        let myUserId = cleanup(typeof user === "object" ? user.id : user)
+
+        if(!User.lookup(myUserId))
+            throw `User ${myUserId} doesn't exist, so can't be owner for messages`
+
+        this.userId = myUserId
+        this.channel = cleanup(typeof channel === "object" ? channel.id : channel)
 
         participants = (participants && Array.isArray(participants)) ? participants.map(p => typeof p === "object" ? p.id : p) : []
         this.participants = participants.filter(p => User.lookup(p))
@@ -37,6 +43,10 @@ class Message extends Entity{
         let myUserId = typeof user === "object" ? user.id : user
         let query = "tag:message" 
         
+        // Cleanup
+        channel = cleanup(channel)
+        userId = cleanup(userId)
+        participant = cleanup(participant)
         
         if(includeMine)
             query += ` (tag:user-${myUserId}|prop:"userId=${myUserId}")`

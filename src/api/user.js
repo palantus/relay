@@ -33,13 +33,12 @@ const UpdateUserInputType = new GraphQLInputObjectType({
 
 const updateUserOperation = {
     type: UserType,
-    description: 'Set name of user',
+    description: 'Update user info. Note that including "endpoint" will require admin access.',
     args: {
       user: { type: GraphQLNonNull(UpdateUserInputType)}
     },
     resolve: (parent, args) => {
-      
-        checkAccess(args.user)
+        checkAccess(args.user, args.user.endpoint?true:false)
         let user = User.lookup(args.user.id)
         if(!user)
           throw "Unknown user"

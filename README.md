@@ -7,7 +7,7 @@ A service for relaying messages between different servers and clients.
 - Users with optional keys/passwords.
 - User endpoints (new messages for that user will be POST'ed to that endpoint)
 - GraphQL based API with good filtering
-- Self-contained permanent storage of messages (stored in ./data folder using [entitystorage](https://github.com/palantus/entitystorage)
+- Self-contained permanent storage of messages (stored in ./data folder using [entitystorage](https://github.com/palantus/entitystorage))
 - Websocket clients. Can be used to send messages around in real-time!
 - Sample chat app included. Open root url to check it out.
 

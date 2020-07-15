@@ -1,0 +1,23 @@
+{
+  "name": "palantus-relay",
+  "version": "1.0.0",
+  "main": "main.js",
+  "repository": "palantus/relay",
+  "License": "MIT",
+  "engineStrict": true,
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon main"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "entitystorage": "^1.0.33",
+    "express": "*",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0",
+    "ws": "^7.3.1"
+  }
+}

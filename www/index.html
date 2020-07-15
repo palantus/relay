@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Message Relay Service</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8,IE=edge" />
+
+    <link rel="icon" type="image/png" href="/img/schedule.png" />
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="browser.js"></script>
+
+    <script>
+        function login(){
+            relay.login({id: $('#userid').val(), key: $('#key').val()})
+        }
+
+        relay.addEventListener('disconnected', () => $("#status").text("Disconnected"))
+        relay.addEventListener('connected', () => $("#status").text("Connected - not logged in"))
+        relay.addEventListener('message', ({detail: msg}) => {addMessage(msg)})
+        relay.addEventListener('error', ({detail: errorText}) => alert(errorText))
+        $(() => {
+            $("#send").click(() => {
+                relay.send({channel: "chat", content: {text: $("#newmessage").val()}, participants: [$("#receiver").val()]})
+            })
+        })
+
+        relay.addEventListener('loggedin', async ({detail: {user: {id}}}) => {
+            $("#status").text("Logged in as " + id)
+            $("#log").empty();
+
+            let chatLog = (await (await fetch(`/graphql?query=
+                {
+                    user(id: "${$('#userid').val()}", key: "${$('#key').val()}") {
+                        id
+                        messages(last: 8, channel: "chat", includeMine: true) {
+                            id
+                            userId
+                            channel
+                            content
+                        }
+                    }
+                }`)).json()).data.user.messages
+
+            chatLog.forEach(m => addMessage(m))
+        })
+
+        function addMessage(message){
+            $("#log").prepend($(`<div>${message.userId == $('#userid').val() ? "Me" : message.userId}: ${JSON.parse(message.content).text}</div>`))
+        }
+
+
+    </script>
+</head>
+<body>
+
+    <h1>Message Relay Service</h1>
+
+    <a href="https://github.com/palantus/relay">Source code on Github</a>
+    
+    <h3>Sample chat app</h3>
+
+    <p>To use this sample app, you need to create a user through the admin user interface or <a href="/graphql">the graphql api</a>.</p>
+
+    <input type="text" id="userid" placeholder="Enter user id"/>
+    <input type="text" id="key" placeholder="Enter user key"/>
+    <button id="login" onclick="javascript:login()">Login</button>
+    <p>Status: <span id="status">Not connected</span></p>
+
+    <table>
+        <tr><td>To: </td><td><input type="text" id="receiver" placeholder="Enter receiver"/></td></tr>
+        <tr><td>Message: </td><td><input type="text" id="newmessage" placeholder="Enter chat message"/></td></tr>
+        <tr><td></td><td><button id="send">Send</button></td></tr>
+    </table>
+    
+    <h3>Chatlog</h3>
+    <div id="log"></div>
+</body>
+</html>

@@ -7,7 +7,7 @@ class Relay extends EventTarget{
     }
 
     async connect(){
-        this.socket = new WebSocket("ws://" + location.host);
+        this.socket = new WebSocket((location.protocol.startsWith("https") ? "wss://" : "ws://") + location.host);
         this.ready = new Promise(readyResolve => {
             this.socket.addEventListener('open', (event) => {
                 readyResolve(this)

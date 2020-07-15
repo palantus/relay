@@ -72,24 +72,67 @@ Include /browser.js in your browser apps and check out index.html in www folder 
 The browser client uses websocket to communicate. If you want to create your own client, you need to send a login message first (as string):
 
 ```json
-{"type": "login", "id": "me", "key": "optionalkey"}
+{
+  "type": "login",
+  "id": "me",
+  "key": "optionalkey"
+}
 ```
 
 Afterwards you will receive messages in the format:
 
 ```json
-{"type":"status","content":{"status":"loggedin","user":{"id":"me","name":"Anders","active":true,"endpoint":{"url":"http://localhost:8080/echo"}}}}
-{"type":"message","content":{"id":75,"userId":"me","channel":"chat","participants":["otheruser"],"content":"Hello","timestamp":"2020-07-15T12:36:18.683Z","isRead":false}}
+{
+  "type": "status",
+  "content": {
+    "status": "loggedin",
+    "user": {
+      "id": "me",
+      "name": "Anders",
+      "active": true,
+      "endpoint": {
+        "url": "http://localhost:8080/echo"
+      }
+    }
+  }
+}
+
+{
+  "type": "message",
+  "content": {
+    "id": 75,
+    "userId": "me",
+    "channel": "chat",
+    "participants": [
+      "otheruser"
+    ],
+    "content": "Hello",
+    "timestamp": "2020-07-15T12:36:18.683Z",
+    "isRead": false
+  }
+}
 ```
 
 You can send messages by sending:
 
 ```json
-{"type":"message","content":{"channel":"chat","content":"Hi again","participants":["otheruser"]}}
+{
+  "type": "message",
+  "content": {
+    "channel": "chat",
+    "content": "Hi again",
+    "participants": [
+      "otheruser"
+    ]
+  }
+}
 ```
 
 Errors are sent back in the format:
 
 ```json
-{ "type": "error", "content": "You are not logged in" }
+{
+  "type": "error",
+  "content": "You are not logged in"
+}
 ```

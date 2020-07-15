@@ -136,3 +136,17 @@ Errors are sent back in the format:
   "content": "You are not logged in"
 }
 ```
+
+## Configuration
+
+Create a .env file in root directory and enter:
+
+```
+ADMINKEY=adminkey
+ENABLEDBBROWSER=false
+```
+
+Note: Please update adminkey to something else!
+
+- ADMINKEY: used for all admin operations, like creating users
+- ENABLEDBBROWSER: Is a database UI used to query data. It is usually only necessary in debug scenarios. When enabled, the UI can be accessed using /db

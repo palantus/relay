@@ -8,6 +8,8 @@ const {messageEvents, findByUser, create: createMessage} = require("./src/servic
 const {checkAccess, userInfo} = require("./src/services/userservice");
 const { WSAEDESTADDRREQ } = require('constants');
 
+require('dotenv').config()
+
 function handleMessage(messageText, ws){
     try{
         let msg = JSON.parse(messageText)
@@ -49,11 +51,14 @@ async function init(){
     app = express()
     app.use("/", express.static(path.join(__dirname, "www")))
 
-    // --- Database User Interface ---
-    console.log("WARNING: Database UI is enabled! Disable for production!")
     let {uiPath, uiAPI} = await Entity.init("./data");
-    app.use("/db", express.static(uiPath))
-    app.use("/db/api/:query", uiAPI);
+
+    // --- Database User Interface ---
+    if(process.env.ENABLEDBBROWSER == "true"){
+        console.log("WARNING: Database UI is enabled! Disable for production!")
+        app.use("/db", express.static(uiPath))
+        app.use("/db/api/:query", uiAPI);
+    }
 
     // --- API ---
     (require("./src/graphql.js"))(app);

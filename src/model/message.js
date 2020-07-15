@@ -2,6 +2,7 @@
 
 let Entity = require("entitystorage")
 const { argsToArgsConfig } = require("graphql/type/definition")
+const User = require("./user")
 
 class Message extends Entity{
     initNew({user, channel, participants, content} = {}){
@@ -13,7 +14,10 @@ class Message extends Entity{
 
         this.userId = typeof user === "object" ? user.id : user
         this.channel = typeof channel === "object" ? channel.id : channel
-        this.participants = (participants && Array.isArray(participants)) ? participants.map(p => typeof p === "object" ? p.id : p) : []
+
+        participants = (participants && Array.isArray(participants)) ? participants.map(p => typeof p === "object" ? p.id : p) : []
+        this.participants = participants.filter(p => User.lookup(p))
+
         this.content = content
         
         this.participants.forEach(p => {
@@ -29,15 +33,15 @@ class Message extends Entity{
         return Message.find(`tag:message prop:"id=${id}"`)
     }
 
-    static findByUser(user, {channel, last, isRead, markAsRead, after, includeMine} = {}){
-        let userId = typeof user === "object" ? user.id : user
+    static findByUser(user, {channel, last, isRead, markAsRead, after, includeMine, userId} = {}){
+        let myUserId = typeof user === "object" ? user.id : user
         let query = "tag:message" 
         
         
         if(includeMine)
-            query += ` (tag:user-${userId}|prop:"userId=${userId}")`
+            query += ` (tag:user-${myUserId}|prop:"userId=${myUserId}")`
         else
-            query += ` tag:user-${userId}`
+            query += ` tag:user-${myUserId}`
 
         if(channel)
             query += ` prop:"channel=${channel}"`
@@ -47,6 +51,8 @@ class Message extends Entity{
         else if(isRead === false)
             query += " !tag:read"
 
+        if(userId)
+            query += ` prop:"userId=${userId}"`
 
         let results = Message.search(query, {last, after})
 

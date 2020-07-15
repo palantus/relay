@@ -2,8 +2,9 @@ class Relay extends EventTarget{
     constructor(){
         super();
         this.onMessage = new Event('message');
-        this.user = {}
-        this.connect()
+        this.user = {};
+        this.connect();
+        this.loginPromise = new Promise((resolve) => this.loginPromiseResolve = resolve);
     }
 
     async connect(){
@@ -51,7 +52,9 @@ class Relay extends EventTarget{
             user = {id: user}
         if(!user.id)
             throw "ERROR: no user id provided for relay login"
+        this.user = user;
         this.socket.send(JSON.stringify({type: "login", content: user}))
+        return await this.loginPromise
     }
 
     async statusReceived({status, user}){
@@ -59,6 +62,7 @@ class Relay extends EventTarget{
             case "loggedin":
                 Object.assign(this.user, user);
                 this.dispatchEvent(new CustomEvent('loggedin', { detail: {user} }))
+                this.loginPromiseResolve(this.user);
                 break;
         }
     }

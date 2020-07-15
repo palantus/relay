@@ -9,10 +9,6 @@
     <script src="browser.js"></script>
 
     <script>
-        function login(){
-            relay.login({id: $('#userid').val(), key: $('#key').val()})
-        }
-
         relay.addEventListener('disconnected', () => $("#status").text("Disconnected"))
         relay.addEventListener('connected', () => $("#status").text("Connected - not logged in"))
         relay.addEventListener('message', ({detail: msg}) => {addMessage(msg)})
@@ -22,14 +18,16 @@
                 relay.send({channel: "chat", content: {text: $("#newmessage").val()}, participants: [$("#receiver").val()]})
             })
         })
+        
+        let login = async () => {
+            let user = await relay.login({id: $('#userid').val(), key: $('#key').val()})
 
-        relay.addEventListener('loggedin', async ({detail: {user: {id}}}) => {
-            $("#status").text("Logged in as " + id)
+            $("#status").text("Logged in as " + user.id)
             $("#log").empty();
 
             let chatLog = (await (await fetch(`/graphql?query=
                 {
-                    user(id: "${$('#userid').val()}", key: "${$('#key').val()}") {
+                    user(id: "${user.id}", key: "${user.key}") {
                         id
                         messages(last: 8, channel: "chat", includeMine: true) {
                             id
@@ -41,7 +39,7 @@
                 }`)).json()).data.user.messages
 
             chatLog.forEach(m => addMessage(m))
-        })
+        }
 
         function addMessage(message){
             $("#log").prepend($(`<div>${message.userId == $('#userid').val() ? "Me" : message.userId}: ${JSON.parse(message.content).text}</div>`))

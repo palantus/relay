@@ -29,7 +29,8 @@ const UserType = new GraphQLObjectType({
           after: { type: GraphQLInt},
           markAsRead: {type: GraphQLBoolean},
           isRead: {type: GraphQLBoolean},
-          includeMine: {type: GraphQLBoolean}
+          includeMine: {type: GraphQLBoolean},
+          userId: {type: GraphQLString}
         },
         resolve: (parent, args, context) => findByUser(parent, args)
       }

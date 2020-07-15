@@ -74,8 +74,10 @@ The browser client uses websocket to communicate. If you want to create your own
 ```json
 {
   "type": "login",
-  "id": "me",
-  "key": "optionalkey"
+  "content": {
+    "id": "me",
+    "key": "optionalkey"
+  }
 }
 ```
 

@@ -45,6 +45,8 @@ const updateUserOperation = {
           throw "Unknown user"
         if(args.user.name)
           user.name = args.user.name;
+        if(args.user.key)
+          user.key = args.user.key;
         if(args.user.endpoint)
           user.endpoint = JSON.parse(JSON.stringify(args.user.endpoint));
         return user.toObj();

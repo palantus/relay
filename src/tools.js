@@ -1,9 +1,16 @@
-function cleanup(string, char = "-"){
+function cleanup(string){
     if(string)
-        return string.replace(/[^a-zA-Z0-9]/g, char);
+        return string.replace(/[^a-zA-Z0-9]/g, '-');
+    return string
+}
+
+function cleanupChannelSearch(string){
+    if(string)
+        return string.replace(/[^a-zA-Z0-9\^\/]/g, "-");
     return string
 }
 
 module.exports = {
-    cleanup
+    cleanup,
+    cleanupChannelSearch
 }

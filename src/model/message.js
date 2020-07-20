@@ -3,7 +3,7 @@
 let Entity = require("entitystorage")
 const { argsToArgsConfig } = require("graphql/type/definition")
 const User = require("./user")
-const {cleanup} = require("../tools")
+const {cleanup, cleanupChannelSearch} = require("../tools")
 
 class Message extends Entity{
     initNew({user, channel, participants, content} = {}){
@@ -44,7 +44,7 @@ class Message extends Entity{
         let query = "tag:message" 
         
         // Cleanup
-        channel = cleanup(channel, "/")
+        channel = cleanupChannelSearch(channel)
         userId = cleanup(userId)
         participant = cleanup(participant)
         

@@ -67,6 +67,12 @@ Get last 5 messages in channel "chat":
 }
 ```
 
+## Searching
+
+TBD
+
+If you want to get messages for channels starting with something specific, use the caret symbol like "^apps/".
+
 ## Clients
 
 Include [/client.mjs](www/client.mjs) (ECMA module) in your app and check out [sampleclient.mjs](www/sampleclient.mjs) in [www folder](www) for a sample implementation.

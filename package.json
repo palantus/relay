@@ -14,7 +14,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
-    "entitystorage": "^1.0.33",
+    "entitystorage": "^1.0.35",
     "express": "*",
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",

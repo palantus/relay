@@ -5,7 +5,7 @@ A service for relaying messages between different servers and clients.
 ## Features
 
 - Users with optional keys/passwords.
-- User endpoints (new messages for that user will be POST'ed to that endpoint)
+- User endpoints (new messages for that user will be POST'ed to that endpoint).
 - GraphQL based API with good filtering
 - Self-contained permanent storage of messages (stored in ./data folder using [entitystorage](https://github.com/palantus/entitystorage))
 - Websocket clients. Can be used to send messages around in real-time!
@@ -15,7 +15,11 @@ A service for relaying messages between different servers and clients.
 
 Store an admin key in .env as ADMINKEY=myadminkey. It is used for admin operations like creating users.
 
-For every other request, you need to provide an user id and key. If you did not set a key for a user, it won't require it.
+For every other request, you need to provide an user id and key. If you don't set a key for a user, it won't require it.
+
+Notice that a "user" in this context (in many cases) won't refer to the end user. It will usually refer to another server, which is a user of the relay. 
+
+User endpoints can only be created by admin, if you are wondering/worried :)
 
 ## API
 

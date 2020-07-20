@@ -73,3 +73,4 @@ class Relay extends EventTarget{
 }
 
 let relay = new Relay();
+export default relay;

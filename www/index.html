@@ -6,47 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8,IE=edge" />
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="browser.js"></script>
-
-    <script>
-        relay.addEventListener('disconnected', () => $("#status").text("Disconnected"))
-        relay.addEventListener('connected', () => $("#status").text("Connected - not logged in"))
-        relay.addEventListener('message', ({detail: msg}) => {addMessage(msg)})
-        relay.addEventListener('error', ({detail: errorText}) => alert(errorText))
-        $(() => {
-            $("#send").click(() => {
-                relay.send({channel: "chat", content: {text: $("#newmessage").val()}, participants: [$("#receiver").val()]})
-            })
-        })
-        
-        let login = async () => {
-            let user = await relay.login({id: $('#userid').val(), key: $('#key').val()})
-
-            $("#status").text("Logged in as " + user.id)
-            $("#log").empty();
-
-            let chatLog = (await (await fetch(`/graphql?query=
-                {
-                    user(id: "${user.id}", key: "${user.key}") {
-                        id
-                        messages(last: 8, channel: "chat", includeMine: true) {
-                            id
-                            userId
-                            channel
-                            content
-                        }
-                    }
-                }`)).json()).data.user.messages
-
-            chatLog.forEach(m => addMessage(m))
-        }
-
-        function addMessage(message){
-            $("#log").prepend($(`<div>${message.userId == $('#userid').val() ? "Me" : message.userId}: ${JSON.parse(message.content).text}</div>`))
-        }
-
-
-    </script>
+    <script type="module" src="./sampleclient.js"></script>
 </head>
 <body>
 
@@ -60,7 +20,7 @@
 
     <input type="text" id="userid" placeholder="Enter user id"/>
     <input type="text" id="key" placeholder="Enter user key"/>
-    <button id="login" onclick="javascript:login()">Login</button>
+    <button id="login" id="login">Login</button>
     <p>Status: <span id="status">Not connected</span></p>
 
     <table>

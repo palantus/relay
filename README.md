@@ -65,7 +65,7 @@ Get last 5 messages in channel "chat":
 
 ## Browser clients
 
-Include [/browser.js](www/browser.js) in your browser apps and check out [index.html](www/index.html) in [www folder](www) for a sample implementation.
+Include [/client.mjs](www/client.mjs) (ECMA module) in your browser apps and check out [index.html](www/index.html) in [www folder](www) for a sample implementation.
 
 ## Websocket
 

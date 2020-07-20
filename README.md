@@ -19,7 +19,7 @@ For every other request, you need to provide an user id and key. If you don't se
 
 Notice that a "user" in this context (in many cases) won't refer to the end user. It will usually refer to another server, which is a user of the relay. 
 
-User endpoints can only be created by admin, if you are wondering/worried :)
+User endpoints can only be created by admin.
 
 ## API
 

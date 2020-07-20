@@ -19,7 +19,7 @@ class Message extends Entity{
             throw `User ${myUserId} doesn't exist, so can't be owner for messages`
 
         this.userId = myUserId
-        this.channel = cleanup(typeof channel === "object" ? channel.id : channel)
+        this.channel = cleanup(typeof channel === "object" ? channel.id : channel, '/')
 
         participants = (participants && Array.isArray(participants)) ? participants.map(p => typeof p === "object" ? p.id : p) : []
         this.participants = participants.filter(p => User.lookup(p))
@@ -44,7 +44,7 @@ class Message extends Entity{
         let query = "tag:message" 
         
         // Cleanup
-        channel = cleanup(channel)
+        channel = cleanup(channel, "/")
         userId = cleanup(userId)
         participant = cleanup(participant)
         

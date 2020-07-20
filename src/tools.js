@@ -1,6 +1,6 @@
-function cleanup(string){
+function cleanup(string, char = "-"){
     if(string)
-        return string.replace(/[^a-zA-Z0-9]/g,'-');
+        return string.replace(/[^a-zA-Z0-9]/g, char);
     return string
 }
 

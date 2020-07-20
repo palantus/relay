@@ -22,18 +22,7 @@ class SampleClient{
         $("#status").text("Logged in as " + user.id)
         $("#log").empty();
 
-        let chatLog = (await (await fetch(`/graphql?query=
-            {
-                user(id: "${user.id}", key: "${user.key}") {
-                    id
-                    messages(last: 8, channel: "chat", includeMine: true) {
-                        id
-                        userId
-                        channel
-                        content
-                    }
-                }
-            }`)).json()).data.user.messages
+        let chatLog = await relay.getMessages({channel: "chat", last: 8, includeMine: true})
 
         chatLog.forEach(m => this.addMessage(m))
     }

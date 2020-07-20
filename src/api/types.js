@@ -24,16 +24,9 @@ const UserType = new GraphQLObjectType({
         type: GraphQLList(MessageType),
         description: "Get user messages",
         args: {
-          channel: { type: GraphQLString },
-          last: { type: GraphQLInt },
-          after: { type: GraphQLInt},
-          markAsRead: {type: GraphQLBoolean},
-          isRead: {type: GraphQLBoolean},
-          includeMine: {type: GraphQLBoolean},
-          userId: {type: GraphQLString},
-          participant: {type: GraphQLString}
+          input: { type: MessageSearchArgsType }
         },
-        resolve: (parent, args, context) => findByUser(parent, args)
+        resolve: (parent, args, context) => findByUser(parent, args.input)
       }
     })
   })
@@ -58,6 +51,24 @@ const UserCredInputType = new GraphQLInputObjectType({
   fields: {
     id: { type: GraphQLNonNull(GraphQLString)},
     key: { type: GraphQLString }
+  }
+});
+  
+const MessageSearchArgsType = new GraphQLInputObjectType({
+  name: 'MessageSearchArgsType',
+  fields: {
+    channel: { type: GraphQLString },
+    last: { type: GraphQLInt },
+    first: { type: GraphQLInt},
+    start: { type: GraphQLInt},
+    end: { type: GraphQLInt},
+    after: { type: GraphQLInt},
+    before: { type: GraphQLInt},
+    markAsRead: {type: GraphQLBoolean},
+    isRead: {type: GraphQLBoolean},
+    includeMine: {type: GraphQLBoolean},
+    userId: {type: GraphQLString},
+    participant: {type: GraphQLString}
   }
 });
 

@@ -50,7 +50,7 @@ Get last 5 messages in channel "chat":
     id
     name
     key
-    messages(last: 5, includeMine:true, channel: "chat") {
+    messages(input: {last: 5, includeMine:true, channel: "chat"}) {
       id
       userId
       channel
@@ -63,9 +63,9 @@ Get last 5 messages in channel "chat":
 }
 ```
 
-## Browser clients
+## Clients
 
-Include [/client.mjs](www/client.mjs) (ECMA module) in your browser apps and check out [index.html](www/index.html) in [www folder](www) for a sample implementation.
+Include [/client.mjs](www/client.mjs) (ECMA module) in your browser or Node apps and check out [sampleclient.mjs](www/sampleclient.mjs) in [www folder](www) for a sample implementation.
 
 ## Websocket
 

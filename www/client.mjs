@@ -70,6 +70,40 @@ class Relay extends EventTarget{
     async send({channel, content, participants = []} = {}){
         this.socket.send(JSON.stringify({type: "message", content: {channel, content: typeof content === "string" ? content : JSON.stringify(content), participants}}))
     }
+    async getMessages(args){
+        let query = `query getMessages($userId:String!, $key:String, $input:MessageSearchArgsType) {
+                user(id:$userId, key: $key){
+                id
+                messages(input: $input) {
+                    id
+                    userId
+                    channel
+                    content
+                    timestamp
+                }
+            }
+        }`;
+
+        let variables = {
+            userId: this.user.id,
+            key: this.user.key,
+            input: args || {}
+        }
+
+        let messages = (await (await fetch('/graphql', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              query,
+              variables,
+            })
+          })).json()).data.user.messages
+
+        return messages
+    }
 }
 
 let relay = new Relay();

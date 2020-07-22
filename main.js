@@ -51,7 +51,7 @@ async function init(){
     app = express()
     app.use(cors())
     app.use("/", express.static(path.join(__dirname, "www")))
-    app.get("/client.mjs", (req, res) => res.sendfile(__dirname + '/node_modules/relay-client/client.mjs'))
+    app.get("/client.mjs", (req, res) => res.sendFile(__dirname + '/node_modules/relay-client/client.mjs'))
 
     let {uiPath, uiAPI} = await Entity.init("./data");
 

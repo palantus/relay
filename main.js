@@ -3,6 +3,7 @@ const WebSocket = require('ws')
 const path = require("path")
 const http = require("http")
 const Entity = require("entitystorage")
+const cors = require('cors')
 const {messageEvents, findByUser, create: createMessage} = require("./src/services/messageservice")
 const {checkAccess, userInfo} = require("./src/services/userservice");
 const { WSAEDESTADDRREQ } = require('constants');
@@ -48,7 +49,9 @@ function handleMessage(messageText, ws){
 
 async function init(){
     app = express()
+    app.use(cors())
     app.use("/", express.static(path.join(__dirname, "www")))
+    app.get("/client.mjs", (req, res) => res.sendfile(__dirname + '/node_modules/relay-client/client.mjs'))
 
     let {uiPath, uiAPI} = await Entity.init("./data");
 

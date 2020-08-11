@@ -21,6 +21,12 @@ Notice that a "user" in this context (in many cases) won't refer to the end user
 
 User endpoints can only be created by admin.
 
+## JWT
+
+In addition to keys, it is possible to use JWT in place of a key. If the key is longer than 100 chars, it is expected to be a JWT token. As payload of the token, it is expected that user id is accessible using ''payload.sub || payload.id || payload.userId || payload.user?.id || payload.user?.userId'' and a (optional) name using ''payload.name || payload.user?.name''.
+
+If a valid token contains a userid that doesn't exist, it is created with an uuid as token.
+
 ## API
 
 View documentation and use API from /graphql when the service is started.

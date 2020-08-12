@@ -68,7 +68,7 @@ class Message extends Entity{
           query += ` tag:"user-${participant}"`
 
         if(participants && participants.length > 0)
-          query += ` (${participants.map(p => `tag:"user-${p}"`).join("|")})`
+          query += ` (${participants.map(p => `tag:"user-${p}"`).join(" ")})`
 
         let results = Message.search(query, {first, last, start, end, after, before})
 

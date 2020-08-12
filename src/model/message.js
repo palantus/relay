@@ -39,7 +39,7 @@ class Message extends Entity{
         return Message.find(`tag:message prop:"id=${id}"`)
     }
 
-    static findByUser(user, {channel, isRead, markAsRead, first, last, start, end, after, before, includeMine, userId, participant} = {}){
+    static findByUser(user, {channel, isRead, markAsRead, first, last, start, end, after, before, includeMine, userId, participant, participants} = {}){
         let myUserId = typeof user === "object" ? user.id : user
         let query = "tag:message" 
         
@@ -49,28 +49,31 @@ class Message extends Entity{
         participant = cleanup(participant)
         
         if(includeMine)
-            query += ` (tag:user-${myUserId}|prop:"userId=${myUserId}")`
+          query += ` (tag:user-${myUserId}|prop:"userId=${myUserId}")`
         else
-            query += ` tag:user-${myUserId}`
+          query += ` tag:user-${myUserId}`
 
         if(channel)
-            query += ` prop:"channel=${channel}"`
+          query += ` prop:"channel=${channel}"`
 
         if(isRead === true)
-            query += " tag:read"
+          query += " tag:read"
         else if(isRead === false)
-            query += " !tag:read"
+          query += " !tag:read"
 
         if(userId)
-            query += ` prop:"userId=${userId}"`
+          query += ` prop:"userId=${userId}"`
 
         if(participant)
-            query += ` tag:"user-${participant}"`
+          query += ` tag:"user-${participant}"`
+
+        if(participants && participants.length > 0)
+          query += ` (${participants.map(p => `tag:"user-${p}"`).join("|")})`
 
         let results = Message.search(query, {first, last, start, end, after, before})
 
         if(markAsRead === true)
-            results.tag("read")
+          results.tag("read")
 
         return results;
     }

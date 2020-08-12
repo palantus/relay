@@ -68,7 +68,8 @@ const MessageSearchArgsType = new GraphQLInputObjectType({
     isRead: {type: GraphQLBoolean},
     includeMine: {type: GraphQLBoolean},
     userId: {type: GraphQLString},
-    participant: {type: GraphQLString}
+    participant: {type: GraphQLString},
+    participants: {type: GraphQLList(GraphQLString)}
   }
 });
 

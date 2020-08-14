@@ -24,6 +24,9 @@ class Message extends Entity{
         participants = (participants && Array.isArray(participants)) ? participants.map(p => typeof p === "object" ? p.id : p) : []
         this.participants = participants.filter(p => User.lookup(p))
 
+        if(!this.participants.includes(myUserId))
+          this.participants.push(myUserId)
+
         this.content = content
         
         this.participants.forEach(p => {

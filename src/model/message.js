@@ -39,7 +39,7 @@ class Message extends Entity{
     }
 
     static lookup(id){
-        return Message.find(`tag:message prop:"id=${id}"`)
+        return Message.find(`tag:message id:${id}`)
     }
 
     static findByUser(user, {channel, isRead, markAsRead, first, last, start, end, after, before, includeMine, userId, participant, participants, id} = {}){
@@ -52,7 +52,7 @@ class Message extends Entity{
         participant = cleanup(participant)
         
         if(id)
-          query += ` prop:"id=${id}"`
+          query += ` id:${id}`
 
         if(includeMine)
           query += ` (tag:user-${myUserId}|prop:"userId=${myUserId}")`

@@ -42,7 +42,7 @@ class Message extends Entity{
         return Message.find(`tag:message prop:"id=${id}"`)
     }
 
-    static findByUser(user, {channel, isRead, markAsRead, first, last, start, end, after, before, includeMine, userId, participant, participants} = {}){
+    static findByUser(user, {channel, isRead, markAsRead, first, last, start, end, after, before, includeMine, userId, participant, participants, id} = {}){
         let myUserId = typeof user === "object" ? user.id : user
         let query = "tag:message" 
         
@@ -51,6 +51,9 @@ class Message extends Entity{
         userId = cleanup(userId)
         participant = cleanup(participant)
         
+        if(id)
+          query += ` prop:"id=${id}"`
+
         if(includeMine)
           query += ` (tag:user-${myUserId}|prop:"userId=${myUserId}")`
         else

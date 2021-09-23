@@ -7,6 +7,7 @@ const cors = require('cors')
 const {messageEvents, findByUser, create: createMessage} = require("./src/services/messageservice")
 const {checkAccess, userInfo} = require("./src/services/userservice");
 const { WSAEDESTADDRREQ } = require('constants');
+let interval;
 
 require('dotenv').config()
 
@@ -69,9 +70,11 @@ async function init(){
     const wss = new WebSocket.Server({ server, clientTracking: true});
     
     wss.on('connection', (ws) => {
+        ws.isAlive = true
         ws.on('message', (message) => handleMessage(message, ws))
         ws.on('close', () => {})
         ws.on('error', (err) => {console.log(err)})
+        ws.on('pong', () => ws.isAlive = true)
     });
 
     const port = process.env.PORT ? parseInt(process.env.PORT) : 8080;
@@ -84,6 +87,15 @@ async function init(){
             }
         })
     })
+
+    interval = setInterval(function ping() {
+      wss.clients.forEach(function each(ws) {
+        if (ws.isAlive === false) return ws.terminate();
+    
+        ws.isAlive = false;
+        ws.ping(() => null);
+      });
+    }, 30000);
 }
 
 init();

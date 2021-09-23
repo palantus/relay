@@ -12,7 +12,7 @@
     "dev": "nodemon main"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "*",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "entitystorage": "^1.0.35",

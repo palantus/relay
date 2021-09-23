@@ -90,7 +90,10 @@ async function init(){
 
     interval = setInterval(function ping() {
       wss.clients.forEach(function each(ws) {
-        if (ws.isAlive === false) return ws.terminate();
+        if (ws.isAlive === false) {
+          console.log("Connection didn't respond to ping. Terminating.")
+          return ws.terminate();
+        }
     
         ws.isAlive = false;
         ws.ping(() => null);

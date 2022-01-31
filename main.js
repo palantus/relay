@@ -7,6 +7,7 @@ const cors = require('cors')
 const {messageEvents, findByUser, create: createMessage} = require("./src/services/messageservice")
 const {checkAccess, userInfo} = require("./src/services/userservice");
 const { WSAEDESTADDRREQ } = require('constants');
+require('dotenv').config()
 let interval;
 
 require('dotenv').config()
@@ -54,7 +55,7 @@ async function init(){
     app.use("/", express.static(path.join(__dirname, "www")))
     app.get("/client.mjs", (req, res) => res.sendFile(__dirname + '/node_modules/relay-client/client.mjs'))
 
-    let {uiPath, uiAPI} = await Entity.init("./data");
+    let {uiPath, uiAPI} = await Entity.init(process.env.STORAGE || "./data");
 
     // --- Database User Interface ---
     if(process.env.ENABLEDBBROWSER == "true"){
